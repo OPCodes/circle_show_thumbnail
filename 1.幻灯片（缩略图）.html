@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style>
+
+	</style>
+	<script>
+
+	</script>
+</head>
+<body>
+	          <!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style>
+        body {
+        	margin: 0; 
+        	background: #000;
+        }
+        img { 
+        	border: none;
+        }
+        #wrap { 
+        	position: relative;
+        	margin: 40px auto;
+        	padding: 20px 40px 60px;
+        	width: 620px;
+        	height: 420px;
+        	border-radius: 20px;
+        	background: #404040;
+        }
+        #tab { 
+        	position: relative;
+        	width: 600px;
+        	height: 400px;
+        	border: 10px solid #f1f1f1;}
+        #tab a{
+        	position: absolute;
+        	top:170px;
+        	width: 60px;
+        	height: 60px;
+        	line-height:60px;
+        	border-radius: 50%;
+        	opacity: 0.4;
+        	font-size:40px;
+        	text-align: center;
+        	text-decoration: none;
+        	color: #fff;
+        	background: #ef9408;
+        	z-index: 2;
+        }
+        #tab a:hover { 
+        	opacity: 1;
+        }
+        #tab img {
+        	display: none;
+        	position: absolute;
+        	top: 0;
+        	left: 0;
+        }
+        #prev { 
+        	left:10px;
+        }
+        #next { 
+        	right: 10px;
+        }    
+        #wrap ul {
+        	position: absolute;
+        	left: 0;
+        	bottom: 20px;
+        	list-style: none;
+			margin: 0;
+			padding: 0 270px 0 280px;
+        	width: 150px;
+        	height: 20px;
+        }
+        #wrap ul li { 
+        	position: relative;
+        	float: left;
+        	margin-right: 10px;
+        	width: 20px;
+        	height: 20px;
+        	border-radius: 50%;
+        	display: inline;
+        	background: #8c8c9c;
+        	cursor: pointer;
+        }
+        #wrap ul li.bg {
+        	background: #8c8c9c;
+        }
+        #wrap ul li.active { 
+        	background: #efbd00;
+        }
+        #wrap ul li.hoverBg {
+			background: #8c8c22;
+        }
+        #wrap ul li img {
+        	display: none;
+        	position: absolute;
+        	left: -55px;
+        	top:-100px;
+        	border: 5px solid #f2f2f2;
+        }
+	</style>
+	<script>
+		window.onload = function (){
+			var tab = document.getElementById("tab");
+			var list = document.getElementById("list");
+			var allA = tab.getElementsByTagName("a");
+			var allImgs = tab.getElementsByTagName("img");
+			var allLis = document.getElementsByTagName("li");
+			var sImgs = list.getElementsByTagName("img");
+			var m = 0;
+			var n = 0;
+
+			var len = allImgs.length;
+
+			function changeImgs (n){
+				for( var i = 0; i < len; i++ ){
+					allImgs[i].style.display = "none";
+					allLis[i].className = "";
+				}
+				allImgs[n].style.display = "block";
+				allLis[n].className = "active";
+			}	
+
+			// 点击上一组按钮
+			allA[0].onclick = function (){
+				m--;
+				n--;
+				if( m < 0 ){
+					m = allImgs.length - 1;
+					n = m;
+				}
+				changeImgs(m);
+			}
+
+			// 点击上一组按钮
+			allA[1].onclick = function (){
+				m++;
+				n++;
+				if( m > len - 1 ){
+					m = 0;
+					n = m;
+				}
+				changeImgs(m);
+			}
+
+			// 给所有li循环事件处理
+			for( var i = 0; i < len; i++ ){
+				allLis[i].index = i;
+				allLis[i].onOff = true;
+				// 点击li的时候，保存当前点击的li的索引
+				allLis[i].onclick = function (){
+					changeImgs(this.index);
+					m = this.index;
+					n = this.index;
+				}
+				// 鼠标移入li时，让当前的缩略图显示，判断当前的li是不是激活的li，然后添加对应的class
+				allLis[i].onmouseover = function(){
+					for( var i = 0; i < len; i++ ){
+						sImgs[i].style.display = "none";
+					}
+					sImgs[this.index].style.display = "block";
+					if( this.index != n ){
+						this.className = "hoverBg";
+					}
+				}
+				// 鼠标移除li时，让当前的缩略图隐藏，判断当前的li是不是激活的li，然后决定是否修改class
+				allLis[i].onmouseout = function(){
+					for( var i = 0; i < len; i++ ){
+						sImgs[i].style.display = "none";
+					}
+					if( this.index != n ){
+						this.className = "bg";
+					}
+				}
+			}
+
+		}
+	</script>
+</head>
+<body>
+	<div id="wrap">
+	    <div id="tab">
+	        <a id="prev" href="javascript:void(0);"><</a>
+	        <a id="next" href="javascript:void(0);">></a>
+	        <img src="img/100.jpg" style="display:block;" />
+	        <img src="img/200.jpg" />
+	        <img src="img/300.jpg" />
+	        <img src="img/400.jpg" />
+	        <img src="img/500.jpg" />
+	    </div>
+	    <ul id="list">
+	        <li class="active">
+                <img src="img/1s.gif" />
+	        </li>
+	        <li>
+                <img src="img/2s.gif" />
+	        </li>
+	        <li>
+                <img src="img/3s.gif" />
+	        </li>
+	        <li>
+                <img src="img/4s.gif" />
+	        </li>
+	        <li>
+                <img src="img/5s.gif" />
+	        </li>
+	    </ul>
+	</div>
+</body>
+</html>
+
+</body>
+</html>
+    
